@@ -27,9 +27,6 @@ $(document).ready(function(){
 
 	var answer = getNumber();
 
-	//remove this
-	console.log(answer);
-
 	//set counter to 0
 	var z = 0;
 
@@ -40,7 +37,6 @@ $(document).ready(function(){
 		$(".guessBox").find("li").remove();
 		getNumber();
 		answer = getNumber();
-		console.log(answer); //remove this
 		$("#feedback").text("Make your Guess!");
 		highlightGuessBox();
 	};
