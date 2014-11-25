@@ -1,38 +1,29 @@
 
 $(document).ready(function(){
 	
-	/*--- Display information modal box ---*/
-  	$(".what").click(function(){
-    	$(".overlay").fadeIn(1000);
+	
 
-  	});
-
-  	/*--- Hide information modal box ---*/
-  	$("a.close").click(function(){
-  		$(".overlay").fadeOut(1000);
-  	});
-
-  	//message for wrong entry
+  	/*message for wrong entry*/
 
   	var wrongEntry = "Please enter a whole number between 1 and 100."
 
-  	/* number generator*/
+  	/* number generator */
 
   	var	getNumber = function() {
   		var ranNum = Math.floor((Math.random() * 100) + 1);
   		return ranNum;
   		}
 
-  	getNumber();
-
 	var answer = getNumber();
 
-	//set counter to 0
-	var z = 0;
+	/* set guess counter to 0 */
 
-	//start new game
+	var numOfGuesses = 0;
+
+	/* start new game */
+
 	var newGame = function () {
-		z = 0;
+		numOfGuesses = 0;
 		$("#count").text("0");
 		$(".guessBox").find("li").remove();
 		getNumber();
@@ -41,23 +32,15 @@ $(document).ready(function(){
 		highlightGuessBox();
 	};
 
-	$(".new").click(function(){
-		newGame();
-	});
-
-	/*focus on the text entry*/
+	/* focus on guess entry box */
 
 	var highlightGuessBox = function () {
 			$("#userGuess").focus().val('');
 		};
 
-	/*in-game play*/
+	/*compare user entered number with random number */
 
-	$('#guessButton').click(function(event) { 
-
-		event.preventDefault();
-
-		var runCompare = function () {
+	var runCompare = function () {
 			var difference = Math.abs(userNumber - answer);
 			if (difference == 0) {
 				$("#feedback").text("Correct!");
@@ -84,31 +67,69 @@ $(document).ready(function(){
 			};
 		};
 
-		var guessCount = function () {
-			z = z + 1;
-			$("#count").text(z);
-		};
+	/*keep count of user guesses*/
 
-		var addGuess = function () {
-			$(".guessBox").prepend("<li>" + userNumber + "</li>");
-		};
+	var guessCount = function () {
+		numOfGuesses = numOfGuesses + 1;
+		$("#count").text(numOfGuesses);
+	};
 
-		var userNumber = +$('#userGuess').val();
+	/*display numbers guessed by user*/
+
+	var addGuess = function () {
+		$(".guessBox").prepend("<li>" + userNumber + "</li>");
+	};
+
+	var userNumber;
+
+	/*get random number to begin first game*/
+
+	getNumber();
+
+	/*new game handler*/
+
+	$(".new").click(function(){
+		newGame();
+	});
+
+	/*--- Display information modal box ---*/
+  	$(".what").click(function(){
+    	$(".overlay").fadeIn(1000);
+
+  	});
+
+  	/*--- Hide information modal box ---*/
+  	$("a.close").click(function(){
+  		$(".overlay").fadeOut(1000);
+  	});
+
+  	/* game play on click */
+
+	$('#guessButton').click(function(event) { 
+
+		event.preventDefault();
+
+		userNumber = +$('#userGuess').val();
+	
 
 		if (isNaN(userNumber)) {
 			alert(wrongEntry);
+			highlightGuessBox();
 		}
 
 		else if (userNumber <= 0) {
 			alert(wrongEntry);
+			highlightGuessBox();
 		}
 
 		else if (userNumber > 100) {
 			alert(wrongEntry);
+			highlightGuessBox();
 		}
 
 		else if ((userNumber%1) != 0) {
-			alert(wrongEntry);	
+			alert(wrongEntry);
+			highlightGuessBox();	
 		}
 
 		else {
